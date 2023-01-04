@@ -9,29 +9,31 @@ pub struct Badge {
 use serde::Deserialize;
 
 #[derive(Deserialize, Debug, Clone)]
+#[serde(rename_all = "camelCase")]
 pub struct ScoreStats {
-    pub totalScore: u64,
-    pub totalRankedScore: u64,
-    pub averageRankedAccuracy: f64,
-    pub totalPlayCount: u64,
-    pub rankedPlayCount: u64,
-    pub replaysWatched: u64,
+    pub total_score: u64,
+    pub total_ranked_score: u64,
+    pub average_ranked_accuracy: f64,
+    pub total_play_count: u64,
+    pub ranked_play_count: u64,
+    pub replays_watched: u64,
 }
 
 #[derive(Deserialize, Debug, Clone)]
+#[serde(rename_all = "camelCase")]
 pub struct SSUser {
     pub id: String,
     pub name: String,
-    pub bio: String,
-    pub profilePicture: String,
+    pub bio: Option<String>,
+    pub profile_picture: String,
     pub country: String,
     pub pp: f32,
     pub rank: i32,
-    pub countryRank: i32,
+    pub country_rank: i32,
     pub role: Option<String>,
     pub badges: Option<Vec<Badge>>,
     pub histories: String,
-    pub scoreStats: ScoreStats,
+    pub score_stats: ScoreStats,
     pub permissions: i32,
     pub banned: bool,
     pub inactive: bool,
