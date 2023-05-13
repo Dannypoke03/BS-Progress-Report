@@ -66,7 +66,6 @@ pub async fn get_users_page(
 ) -> Result<Vec<SSUser>, reqwest::Error> {
     let cur_page = page.unwrap_or(1).to_string();
     let mut params = HashMap::new();
-    params.insert("limit", "250");
     params.insert("page", &cur_page);
 
     if let Some(ref c) = countries {

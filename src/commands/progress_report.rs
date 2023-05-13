@@ -10,14 +10,19 @@ pub async fn progress_report(
 ) -> Result<(), Error> {
     let loading_msg = ctx.send(|m| m.content("Loading...").ephemeral(true)).await;
 
-    let countries_string =
-        countries.unwrap_or(std::env::var("COUNTRIES").unwrap_or("".to_string()));
+    let countries_string = countries.unwrap_or("".to_string());
     let mut filter_countries: Option<String> = None;
     if countries_string != "" {
         filter_countries = Some(countries_string);
     }
     let users_count = users.unwrap_or(50);
-    let ss_data = scoresaber::get_users(users_count, filter_countries).await?;
+    let ss_data_request = scoresaber::get_users(users_count, filter_countries).await;
+    if let Err(e) = ss_data_request {
+        let _ = loading_msg.unwrap().delete(ctx).await;
+        let _ = ctx.send(|m| m.content("Error: ".to_owned() + &e.to_string()).ephemeral(true)).await;
+        return Ok(());
+    };
+    let ss_data = ss_data_request.unwrap();
     let mut table = Table::new();
     table.set_format(*format::consts::FORMAT_NO_LINESEP_WITH_TITLE);
 
