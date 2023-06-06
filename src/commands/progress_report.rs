@@ -9,7 +9,7 @@ pub async fn progress_report(
     #[description = "List of countries separated by commas"] countries: Option<String>,
 ) -> Result<(), Error> {
     let loading_msg = ctx.send(|m| m.content("Loading...").ephemeral(true)).await;
-
+     
     let countries_string = countries.unwrap_or("".to_string());
     let mut filter_countries: Option<String> = None;
     if countries_string != "" {
@@ -27,7 +27,7 @@ pub async fn progress_report(
     table.set_format(*format::consts::FORMAT_NO_LINESEP_WITH_TITLE);
 
     table.set_titles(row![c->"Rank", c->"Name", c->"PP", c->"Global"]);
-
+    
     let mut i = 1;
     for user in ss_data {
         table.add_row(Row::new(vec![
